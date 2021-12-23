@@ -10,6 +10,10 @@
 	String[] jobCode = request.getParameterValues("jobCode");
 	List<String> jobCodeList = jobCode != null ? Arrays.asList(jobCode) : null;
 	pageContext.setAttribute("jobCodeList", jobCodeList);
+	
+	String[] deptCode = request.getParameterValues("deptCode");
+	List<String> deptCodeList = deptCode != null ? Arrays.asList(deptCode) : null;
+	pageContext.setAttribute("deptCodeList", deptCodeList);
 %>
 <!DOCTYPE html>
 <html>
@@ -45,23 +49,44 @@ table#tbl-search tbody {display: flex; flex-direction: column; align-items: cent
 				<table id="tbl-search">
 					<tr>
 						<th>직급</th>
-						<td>
-							<c:forEach items="${jobList}" var="job" varStatus="vs">
+						<td><c:forEach items="${jobList}" var="job" varStatus="vs">
 								<input 
 									type="checkbox" 
 									name="jobCode" 
 									id="jodCode${vs.count}" 
-									value="${job.jobCode}" 
+									value="${job.jobCode}"
 									${jobCodeList.contains(job.jobCode) ? 'checked' : ''} />
-								<label for="jobCode${vs.count}">${job.jobName}</label>	
-								<c:if test="${vs.count % 3 eq 0}"><br/></c:if>
+								<label for="jobCode${vs.count}">${job.jobName}</label>
+								<c:if test="${vs.count % 3 eq 0}">
+									<br />
+								</c:if>
+							</c:forEach></td>
+					</tr>
+					<!-- @실습문제 : 부서코드도 함께 조회(부서배정이 안된 사원도 조회되도록 할것) -->
+					<tr>
+						<th>부서</th>
+						<td>
+							<input type="checkbox" name="deptCode" id="deptCode0"value="D0" 
+							${dept.deptCode eq 'D0' ? 'checked' : ''}/> 
+							<label for="deptCode0">인턴</label>
+							<c:forEach items="${deptList}" var="dept" varStatus="vs">
+								<input 
+									type="checkbox" 
+									name="deptCode"
+									id="deptCode${vs.count}"
+									value="${dept.deptId}"
+									${deptCodeList.contaions(dept.deptId) ? 'checked' : ''} />
+								<label for="deptCode${vs.count}">${dept.deptTitle}</label>
+								<c:if test="${vs.count % 3 eq 0}">
+									<br />
+								</c:if>
 							</c:forEach>
 						</td>
 					</tr>
 					<tr>
 						<th>
-							<input type="submit" value="검색" />
-							<input type="reset" value="초기화" onclick="location.href='empSearch3.do'"/>
+							<input type="submit" value="검색" /> 
+							<input type="reset" value="초기화" onclick="location.href='empSearch3.do'" />
 						</th>
 					</tr>
 				</table>	
@@ -99,7 +124,7 @@ table#tbl-search tbody {display: flex; flex-direction: column; align-items: cent
 							<td>${emp.gender}</td>
 							<td>${emp.email}</td>
 							<td>${emp.phone}</td>
-							<td>${emp.deptTitle}</td>
+							<td>${emp.deptTitle eq null ? '인턴' : emp.deptTitle}</td>
 							<td>${emp.jobName}</td>
 							<td>${emp.salLevel}</td>
 							<td><fmt:formatNumber value="${emp.salary}" type="currency" /></td>
