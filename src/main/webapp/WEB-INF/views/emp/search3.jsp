@@ -66,21 +66,20 @@ table#tbl-search tbody {display: flex; flex-direction: column; align-items: cent
 					<tr>
 						<th>부서</th>
 						<td>
-							<input type="checkbox" name="deptCode" id="deptCode0"value="D0" 
-							${dept.deptCode eq 'D0' ? 'checked' : ''}/> 
-							<label for="deptCode0">인턴</label>
 							<c:forEach items="${deptList}" var="dept" varStatus="vs">
-								<input 
-									type="checkbox" 
+								<input
+									type="checkbox"
 									name="deptCode"
 									id="deptCode${vs.count}"
 									value="${dept.deptId}"
-									${deptCodeList.contaions(dept.deptId) ? 'checked' : ''} />
+									${deptCodeList.contains(dept.deptId) ? 'checked' : ''}/>
 								<label for="deptCode${vs.count}">${dept.deptTitle}</label>
-								<c:if test="${vs.count % 3 eq 0}">
-									<br />
-								</c:if>
+								<c:if test="${vs.count % 3 == 0}"><br/></c:if>
 							</c:forEach>
+											
+							<input type="checkbox" name="deptCode" id="deptCode0" value="D0" 
+							${param.deptCode eq 'D0' ? 'checked' : ''}/>
+							<label for="deptCode0">인턴</label>
 						</td>
 					</tr>
 					<tr>

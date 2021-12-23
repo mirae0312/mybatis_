@@ -34,7 +34,7 @@ public class EmpSearchController3 extends AbstractController {
 		// 반복접근 가능한 객체 : T[], List<T>, Set<T>, Map<K, V>
 		Map<String, Object> param = new HashMap<>();
 		param.put("jobCode", request.getParameterValues("jobCode"));
-		param.put("deptCode", request.getParameter("deptCode"));
+		param.put("deptCode", request.getParameterValues("deptCode"));
 		System.out.println("[EmpSearchController3] param = " + param);
 		
 		// 2. 업무로직
